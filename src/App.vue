@@ -7,7 +7,15 @@ import scores from "./assets/json/scores.json";
 import filters from "./assets/json/filters.json";
 
 const searchValue = ref("");
-const index = new Index("performance");
+const index = new Index({
+  tokenize: "full",
+  resolution: 9,
+  context: {
+    depth: 1,
+    resolution: 3,
+    bidirectional: true,
+  },
+});
 
 onMounted(() => {
   questions.forEach((el) => {
@@ -25,14 +33,19 @@ const searchedQuestionsId = computed(() => {
     : questions.map((el) => el._id);
 });
 
+const searchedQuestionsIdMap = computed(() => {
+  const map = {};
+  searchedQuestionsId.value.forEach((id) => {
+    map[id] = true;
+  });
+  return map;
+});
+
 const searchedQuestions = computed(() => {
   let sQuestions = [];
   if (searchValue.value && searchValue.value.length > 0) {
     sQuestions = questions.filter((question) => {
-      const found = searchedQuestionsId.value.find((sQuestionId) => {
-        return sQuestionId == question._id;
-      });
-      return found;
+      return searchedQuestionsIdMap.value[question._id];
     });
   } else {
     return questions;

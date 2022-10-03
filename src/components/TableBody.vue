@@ -39,6 +39,6 @@ watch(bodyIndexTableY, (newY) => {
     <TableDataIndexColumn :index-data="indexData" />
   </div>
   <div ref="mainTable" class="main-table">
-    <TableData :data="data" />
+    <TableData :data="data" :index-data="indexData" />
   </div>
 </template>

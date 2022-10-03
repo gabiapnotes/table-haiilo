@@ -1,11 +1,16 @@
 <script setup>
-import TableDataColumn from "./TableDataColumn.vue";
+import TableDataRow from "./TableDataRow.vue";
 
-defineProps(["data"]);
+defineProps(["data", "indexData"]);
 </script>
 
 <template>
-  <div class="body-column" v-for="(info, index) in data" :key="index">
-    <TableDataColumn :column-index="index" :data-column="info.scores" />
+  <div
+    class="body-row"
+    v-for="(info, index) in data"
+    :id="`${indexData[index]._id}_question_row`"
+    :key="`${indexData[index]._id}_question_row`"
+  >
+    <TableDataRow :column-index="index" :data-column="info.scores" />
   </div>
 </template>
